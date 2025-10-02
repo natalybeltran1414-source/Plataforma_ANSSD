@@ -1,0 +1,9 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h2>Perfil</h2>
+    <p><strong>Nombre:</strong> {{ perfil.nombre }}</p>
+    <p><strong>Cargo:</strong> {{ perfil.cargo }}</p>
+    <p><strong>Correo:</strong> {{ user.email }}</p>
+</div>
+{% endblock %}

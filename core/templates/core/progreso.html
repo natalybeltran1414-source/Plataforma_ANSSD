@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% load mi_filtros %} 
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h2>Panel de Progreso</h2>
+    
+    {# La lógica de cálculo se mueve a la vista; aquí solo verificamos si hay módulos #}
+    {% if total > 0 %}
+        <p>
+            <strong>Progreso:</strong> {{ completados }} de {{ total }} módulos completados
+            ({{ porcentaje_real }}%)
+        </p>
+        <div class="progress mb-3">
+            {# Ahora usamos la variable 'porcentaje_real' que ya fue calculada en la vista #}
+            <div class="progress-bar bg-success"
+                 role="progressbar"
+                 style="width: {{ porcentaje_real }}%"
+                 aria-valuenow="{{ porcentaje_real }}"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+                 {{ porcentaje_real }}%
+            </div>
+        </div>
+    {% else %}
+        <p class="text-muted">No hay módulos disponibles para mostrar el progreso.</p>
+    {% endif %}
+    
+    
+    <h3>Módulos</h3>
+    {% if progresos %}
+        <ul class="list-group mb-3">
+            {% for progreso in progresos %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ progreso.modulo.nombre|default:"Sin nombre" }}
+                    <span class="badge {% if progreso.completado %}bg-success{% else %}bg-warning{% endif %}">
+                        {{ progreso.completado|yesno:"Completado,Pendiente" }}
+                        (Puntaje: {{ progreso.puntaje|default:0 }})
+                    </span>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">No hay progresos para mostrar.</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">No hay progresos registrados. Completa el diagnóstico para comenzar.</p>
+    {% endif %}
+    
+    {% if brechas %}
+        <h3>Recomendaciones</h3>
+        <ul class="list-group">
+            {% for brecha in brechas %}
+                <li class="list-group-item">
+                    <a href="{% url 'modulo' brecha.id %}">{{ brecha.nombre|default:"Sin nombre" }}</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">No hay brechas para recomendar.</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">No hay recomendaciones disponibles.</p>
+    {% endif %}
+</div>
+{% endblock %}

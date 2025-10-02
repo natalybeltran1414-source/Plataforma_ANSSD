@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% load mi_filtros %}
+{% block content %}
+<div class="card text-center shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title">Bienvenido a la Plataforma Adaptativa</h1>
+        <p class="card-text">Evalúa y fortalece tus competencias digitales con nuestro sistema adaptativo.</p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'diagnostico' %}" class="btn btn-primary">Comenzar Diagnóstico</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-primary">Registrarse</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-primary">Iniciar Sesión</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
