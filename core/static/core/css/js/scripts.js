@@ -1,4 +1,4 @@
-// scripts.js
+
 document.addEventListener('DOMContentLoaded', function() {
     // Validación simple para formularios
     const forms = document.querySelectorAll('form');
